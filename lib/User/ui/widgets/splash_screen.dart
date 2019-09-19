@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:smart_tbolt/User/ui/screens/sign_in_screen.dart';
-import 'package:smart_tbolt/widgets/custom_material_router.dart';
+import 'package:smart_tbolt/User/ui/widgets/custom_material_router.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

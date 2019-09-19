@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:smart_tbolt/User/bloc/user_bloc.dart';
 import 'package:smart_tbolt/User/ui/screens/sign_in_screen.dart';
-import 'package:smart_tbolt/widgets/splash_screen.dart';
+import 'package:smart_tbolt/User/ui/widgets/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
         bloc: UserBloc(),
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Smart TBolt',
           theme: ThemeData.dark(),
           home: SplashScreen(),
           initialRoute: 'main',

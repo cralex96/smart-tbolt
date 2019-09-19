@@ -14,7 +14,7 @@ description: A Triage App with neural networks using Flutter.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,6 +29,10 @@ dependencies:
   font_awesome_flutter: ^8.5.0
 
   animator: ^0.1.4
+
+  flutter_facebook_login: ^2.0.1
+
+  http: ^0.12.0+2
 
 dev_dependencies:
   flutter_test:

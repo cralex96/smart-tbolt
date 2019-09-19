@@ -26,6 +26,26 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+	    <dict>
+	        <key>CFBundleURLSchemes</key>
+	        <array>
+	            <string>fb2503703789916411</string>
+	        </array>
+	    </dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>2503703789916411</string>
+	<key>FacebookDisplayName</key>
+	<string>Smart-TBolt</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+	    <string>fbapi</string>
+	    <string>fb-messenger-share-api</string>
+	    <string>fbauth2</string>
+	    <string>fbshareextension</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:smart_tbolt/User/bloc/user_bloc.dart';
 import 'package:smart_tbolt/widgets/rounded_button.dart';
-import 'package:smart_tbolt/widgets/tab_indicator_painter.dart';
+import 'package:smart_tbolt/User/ui/widgets/tab_indicator_painter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -34,22 +38,24 @@ class _SignInScreen extends State<SignInScreen>
   TextEditingController loginPasswordController = TextEditingController();
 
   bool _obscureTextLogin = true;
-  bool _obscureTextSignup = true;
-  bool _obscureTextSignupConfirm = true;
+  bool _obscureTextSignUp = true;
+  bool _obscureTextSignUpConfirm = true;
 
-  TextEditingController signupEmailController = TextEditingController();
-  TextEditingController signupNameController = TextEditingController();
-  TextEditingController signupPasswordController = TextEditingController();
-  TextEditingController signupConfirmPasswordController =
-  TextEditingController();
+  TextEditingController signUpEmailController = TextEditingController();
+  TextEditingController signUpNameController = TextEditingController();
+  TextEditingController signUpPasswordController = TextEditingController();
+  TextEditingController signUpConfirmPasswordController = TextEditingController();
 
   PageController _pageController;
 
   Color left = Colors.black;
   Color right = Colors.white;
 
+  UserBloc userBloc;
+
   @override
   Widget build(BuildContext context) {
+    userBloc = BlocProvider.of(context);
     return Scaffold(
       key: _scaffoldKey,
       body: SingleChildScrollView(
@@ -152,9 +158,9 @@ class _SignInScreen extends State<SignInScreen>
   }
 
   void showInSnackBar(String value) {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(
         value,
         textAlign: TextAlign.center,
@@ -385,7 +391,9 @@ class _SignInScreen extends State<SignInScreen>
               Padding(
                 padding: EdgeInsets.only(top: 10.0, right: 40.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Facebook button pressed"),
+                  onTap: () => {
+                    userBloc.facebookSignIn()
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
@@ -446,7 +454,7 @@ class _SignInScreen extends State<SignInScreen>
                         margin: EdgeInsets.only(top: 10.0),
                         child: TextFormField(
                           focusNode: myFocusNodeName,
-                          controller: signupNameController,
+                          controller: signUpNameController,
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: TextStyle(
@@ -472,7 +480,7 @@ class _SignInScreen extends State<SignInScreen>
                         margin: EdgeInsets.only(top: 10.0),
                         child: TextFormField(
                           focusNode: myFocusNodeEmail,
-                          controller: signupEmailController,
+                          controller: signUpEmailController,
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
                               fontSize: 16.0,
@@ -498,8 +506,8 @@ class _SignInScreen extends State<SignInScreen>
                         margin: EdgeInsets.only(top: 10.0),
                         child: TextFormField(
                           focusNode: myFocusNodePassword,
-                          controller: signupPasswordController,
-                          obscureText: _obscureTextSignup,
+                          controller: signUpPasswordController,
+                          obscureText: _obscureTextSignUp,
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Colors.black),
@@ -517,9 +525,9 @@ class _SignInScreen extends State<SignInScreen>
                                 color: Colors.grey
                             ),
                             suffixIcon: GestureDetector(
-                              onTap: _toggleSignup,
+                              onTap: _toggleSignUp,
                               child: Icon(
-                                _obscureTextSignup
+                                _obscureTextSignUp
                                     ? FontAwesomeIcons.eye
                                     : FontAwesomeIcons.eyeSlash,
                                 size: 15.0,
@@ -532,8 +540,8 @@ class _SignInScreen extends State<SignInScreen>
                       Container(
                         margin: EdgeInsets.only(top: 10.0),
                         child: TextFormField(
-                          controller: signupConfirmPasswordController,
-                          obscureText: _obscureTextSignupConfirm,
+                          controller: signUpConfirmPasswordController,
+                          obscureText: _obscureTextSignUpConfirm,
                           style: TextStyle(
                               fontSize: 16.0,
                               color: Colors.black
@@ -552,9 +560,9 @@ class _SignInScreen extends State<SignInScreen>
                                 color: Colors.grey
                             ),
                             suffixIcon: GestureDetector(
-                              onTap: _toggleSignupConfirm,
+                              onTap: _toggleSignUpConfirm,
                               child: Icon(
-                                _obscureTextSignupConfirm
+                                _obscureTextSignUpConfirm
                                     ? FontAwesomeIcons.eye
                                     : FontAwesomeIcons.eyeSlash,
                                 size: 15.0,
@@ -600,15 +608,15 @@ class _SignInScreen extends State<SignInScreen>
     });
   }
 
-  void _toggleSignup() {
+  void _toggleSignUp() {
     setState(() {
-      _obscureTextSignup = !_obscureTextSignup;
+      _obscureTextSignUp = !_obscureTextSignUp;
     });
   }
 
-  void _toggleSignupConfirm() {
+  void _toggleSignUpConfirm() {
     setState(() {
-      _obscureTextSignupConfirm = !_obscureTextSignupConfirm;
+      _obscureTextSignUpConfirm = !_obscureTextSignUpConfirm;
     });
   }
 }
