@@ -1,25 +1,29 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:smart_tbolt/User/bloc/user_bloc.dart';
+import 'package:smart_tbolt/triage_inquiry/ui/screens/home_screen.dart';
+import 'package:smart_tbolt/user/bloc/user_bloc.dart';
+import 'package:smart_tbolt/user/ui/widgets/authentication_state.dart';
+import 'package:smart_tbolt/widgets/error_snackbar.dart';
 import 'package:smart_tbolt/widgets/rounded_button.dart';
 import 'package:smart_tbolt/User/ui/widgets/tab_indicator_painter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:smart_tbolt/widgets/success_snackbar.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInSignUpScreen extends StatefulWidget {
 
-  SignInScreen({Key key}) : super(key: key);
+  // Constructor.
+  SignInSignUpScreen({Key key}) : super(key: key);
 
   @override
   State createState() {
-    return _SignInScreen();
+    return _SignInSignUpScreen();
   }
 }
 
-class _SignInScreen extends State<SignInScreen>
+// SignInSignUpScreen Class.
+class _SignInSignUpScreen extends State<SignInSignUpScreen>
     with SingleTickerProviderStateMixin {
 
   AnimationController _animationController;
@@ -56,25 +60,27 @@ class _SignInScreen extends State<SignInScreen>
   @override
   Widget build(BuildContext context) {
     userBloc = BlocProvider.of(context);
-    return Scaffold(
-      key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                color: Colors.black38,
-                image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                  image: AssetImage('assets/images/login_background.jpg'),
-                  fit: BoxFit.cover,
-                ),
+    return _handleCurrentSession();
+  }
+
+  Widget _signInSignUpUI() {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              color: Colors.black38,
+              image: DecorationImage(
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                image: AssetImage('assets/images/login_background.jpg'),
+                fit: BoxFit.cover,
               ),
-              child: Column(
-                children: <Widget>[
-                  Container(
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
                     child: Hero(
                       tag: 'logo',
                       child: FlutterLogo(
@@ -82,42 +88,41 @@ class _SignInScreen extends State<SignInScreen>
                         style: FlutterLogoStyle.horizontal,
                       ),
                     )
+                ),
+                _buildMenuBar(context),
+                Expanded(
+                  flex: 2,
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (i) {
+                      if (i == 0) {
+                        setState(() {
+                          right = Colors.white;
+                          left = Colors.black;
+                        });
+                      } else if (i == 1) {
+                        setState(() {
+                          right = Colors.black;
+                          left = Colors.white;
+                        });
+                      }
+                    },
+                    children: <Widget>[
+                      ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: _buildSignIn(context),
+                      ),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: _buildSignUp(context),
+                      ),
+                    ],
                   ),
-                  _buildMenuBar(context),
-                  Expanded(
-                    flex: 2,
-                    child: PageView(
-                      controller: _pageController,
-                      onPageChanged: (i) {
-                        if (i == 0) {
-                          setState(() {
-                            right = Colors.white;
-                            left = Colors.black;
-                          });
-                        } else if (i == 1) {
-                          setState(() {
-                            right = Colors.black;
-                            left = Colors.white;
-                          });
-                        }
-                      },
-                      children: <Widget>[
-                        ConstrainedBox(
-                          constraints: const BoxConstraints.expand(),
-                          child: _buildSignIn(context),
-                        ),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints.expand(),
-                          child: _buildSignUp(context),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -157,6 +162,7 @@ class _SignInScreen extends State<SignInScreen>
     _animationController.forward();
   }
 
+  // Generate a custom SnackBar.
   void showInSnackBar(String value) {
     FocusScope.of(context).requestFocus(FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
@@ -174,6 +180,7 @@ class _SignInScreen extends State<SignInScreen>
     ));
   }
 
+  // Widget for the menu tabs.
   Widget _buildMenuBar(BuildContext context) {
     return Container(
       width: 300.0,
@@ -224,6 +231,7 @@ class _SignInScreen extends State<SignInScreen>
     );
   }
 
+  // Widget for Sign In form.
   Widget _buildSignIn(BuildContext context) {
     return AnimatedContainer(
       padding: EdgeInsets.only(
@@ -320,7 +328,7 @@ class _SignInScreen extends State<SignInScreen>
               RoundedButton(
                 margin: EdgeInsets.all(25.0),
                 text: Text(
-                  'Sign In',
+                  'Login',
                   style: TextStyle(
                     fontSize: 15.0
                   ),
@@ -431,6 +439,7 @@ class _SignInScreen extends State<SignInScreen>
     );
   }
 
+  // Widget for Sign Up form.
   Widget _buildSignUp(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 23.0),
@@ -578,7 +587,7 @@ class _SignInScreen extends State<SignInScreen>
               ),
               RoundedButton(
                 text: Text(
-                  'Sign Up',
+                  'Register',
                   style: TextStyle(
                     color: Colors.white
                   ),
@@ -589,6 +598,46 @@ class _SignInScreen extends State<SignInScreen>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _handleCurrentSession() {
+    return Scaffold(
+      key: _scaffoldKey,
+      body: StreamBuilder(
+        stream: userBloc.authStatus,
+        initialData: AuthenticationState.initial(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            ErrorSnackBar errorSnackBar = ErrorSnackBar(scaffoldKey: _scaffoldKey);
+            WidgetsBinding.instance.addPostFrameCallback((_) => errorSnackBar.showInSnackBar(snapshot.error));
+          } else {
+            if (snapshot.data.status == AuthenticationState.authenticatedState) {
+              return AnimatedSwitcher(
+                duration: const Duration(seconds: 1),
+                child: HomeScreen(),
+              );
+            } else if (snapshot.data.status == AuthenticationState.signedOutState) {
+              SuccessSnackBar successSnackBar = SuccessSnackBar(scaffoldKey: _scaffoldKey);
+              print("Cerro");
+              WidgetsBinding.instance.addPostFrameCallback((_) => successSnackBar.showInSnackBar(snapshot.data));
+            } else if (snapshot.data.status == AuthenticationState.initialState) {
+
+            } else {
+              return AnimatedSwitcher(
+                duration: const Duration(seconds: 1),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          }
+          return AnimatedSwitcher(
+            duration: const Duration(seconds: 1),
+            child: _signInSignUpUI(),
+          );
+        }
+      )
     );
   }
 

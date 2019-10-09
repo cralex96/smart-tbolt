@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:smart_tbolt/User/ui/screens/sign_in_screen.dart';
-import 'package:smart_tbolt/User/ui/widgets/custom_material_router.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -24,10 +22,7 @@ class _SplashScreen extends State<SplashScreen> {
   }
 
   void navigateToLogin() {
-    Navigator.pushReplacement(
-        context,
-        CustomMaterialRouter(builder: (context) => SignInScreen())
-    );
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
