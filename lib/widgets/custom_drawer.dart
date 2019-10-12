@@ -1,6 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_tbolt/colors/custom_color_scheme.dart';
+import 'package:smart_tbolt/strings/i18n.dart';
 
 class CustomDrawer extends StatefulWidget {
   final String headerTitle;
@@ -18,18 +18,10 @@ class CustomDrawer extends StatefulWidget {
 
   @override
   State createState() => _CustomDrawer();
-
-
 }
 
 class _CustomDrawer extends State<CustomDrawer> {
   final double _circleSize = 35.0;
-  
-  final List<Map<String, dynamic>> _listViewData = [
-    {'title': 'Inicio', 'icon': Icons.home},
-    {'title': 'Triage', 'icon': Icons.accessibility},
-    {'title': 'Historia Clínica', 'icon': Icons.assignment}
-  ];
   
   int _selectedIndex = 0;
 
@@ -81,6 +73,15 @@ class _CustomDrawer extends State<CustomDrawer> {
       )
     );
 
+    /// -------------------------------------------------
+    /// List that contains all the items for the Drawer.
+    /// -------------------------------------------------
+    final List<Map<String, dynamic>> _listViewData = [
+      {'title': S.of(context).homeMenu, 'icon': Icons.home},
+      {'title': S.of(context).triageMenu, 'icon': Icons.accessibility},
+      {'title': S.of(context).medicalHistoryMenu, 'icon': Icons.assignment}
+    ];
+
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -89,8 +90,8 @@ class _CustomDrawer extends State<CustomDrawer> {
               border: Border(
                 bottom: BorderSide(
                   color: CustomColorScheme.primaryColor,
-                    width: 2.0
-                  )
+                  width: 2.0
+                )
               )
             ),
             child: Column(

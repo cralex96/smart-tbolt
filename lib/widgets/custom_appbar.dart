@@ -7,28 +7,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({Key key, this.title});
 
   final double bottomLineSize = 2.0;
-
   final Size preferredSize = Size.fromHeight(60.0);
+  final Color _backgroundColor = CustomColorScheme.primaryColor;
+  final Color _fontColor = CustomColorScheme.secondaryColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      bottom: PreferredSize(
-        child: Container(
-          color: CustomColorScheme.primaryColor,
-          height: bottomLineSize,
-        ),
-        preferredSize: Size.fromHeight(bottomLineSize),
-      ),
-      backgroundColor: CustomColorScheme.backgroundColor,
+      backgroundColor: _backgroundColor,
       title: Text(
         title,
         style: TextStyle(
-          color: CustomColorScheme.primaryColor,
+          color: _fontColor,
         ),
       ),
       iconTheme: IconThemeData(
-        color: CustomColorScheme.primaryColorAccent
+        color: _fontColor
       ),
     );
   }
